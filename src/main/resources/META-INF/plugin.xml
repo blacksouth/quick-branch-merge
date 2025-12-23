@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>com.jiuji.merge-to-dev-helper</id>
+    <name>Merge to Dev Helper</name>
+    <version>1.0.0</version>
+    <vendor>Jiuji</vendor>
+    
+    <description><![CDATA[
+        一键将当前分支合并到 dev 分支的便捷工具。<br/>
+        功能包括：<br/>
+        <ul>
+            <li>自动检测未提交的更改并提示提交</li>
+            <li>自动执行 fetch → checkout dev → pull → merge → push</li>
+            <li>合并完成后自动切回原分支</li>
+            <li>显示操作进度和结果通知</li>
+        </ul>
+    ]]></description>
+    
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
+    
+    <actions>
+        <action id="com.jiuji.mergetodev.MergeToDevAction"
+                class="com.jiuji.mergetodev.MergeToDevAction"
+                text="Merge to Dev"
+                description="将当前分支合并到 dev 分支">
+            <add-to-group group-id="GitRepositoryActions" anchor="last"/>
+            <add-to-group group-id="Vcs.MainMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+        </action>
+    </actions>
+</idea-plugin>
