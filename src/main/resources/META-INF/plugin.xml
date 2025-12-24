@@ -1,31 +1,82 @@
 <idea-plugin>
-    <id>com.jiuji.merge-to-dev-helper</id>
-    <name>Merge to Dev Helper</name>
+    <id>com.jiuji.quick-branch-merge</id>
+    <name>Quick Branch Merge</name>
     <version>1.0.0</version>
     <vendor>Jiuji</vendor>
     
     <description><![CDATA[
-        一键将当前分支合并到 dev 分支的便捷工具。<br/>
-        功能包括：<br/>
+        <h2>Quick Branch Merge - 一键合并分支</h2>
+        <p>一键将当前分支合并到指定目标分支的便捷工具。</p>
+        
+        <h3>📦 支持版本</h3>
+        <p>IntelliJ IDEA 2023.3 ~ 2025.3（build 233 ~ 253）</p>
+        
+        <h3>⚙️ 配置目标分支</h3>
+        <p><b>Settings → Tools → Quick Branch Merge</b></p>
+        <p>可配置合并的目标分支，默认为 dev</p>
+        
+        <h3>✨ 功能特性</h3>
         <ul>
-            <li>自动检测未提交的更改并提示提交</li>
-            <li>自动执行 fetch → checkout dev → pull → merge → push</li>
-            <li>合并完成后自动切回原分支</li>
-            <li>显示操作进度和结果通知</li>
+            <li><b>一键合并</b> - 自动执行完整的 Git 合并流程</li>
+            <li><b>自动提交</b> - 检测未提交更改，弹窗提示输入 commit message</li>
+            <li><b>自动推送</b> - 先推送当前分支到远程，再合并到目标分支</li>
+            <li><b>变更检测</b> - 无更改时自动提示"无需操作"</li>
+            <li><b>实时日志</b> - 在底部 Quick Merge 控制台实时显示命令执行结果</li>
+            <li><b>可配置</b> - 支持自定义目标分支</li>
+            <li><b>自动切回</b> - 操作完成后自动切回原分支</li>
         </ul>
+        
+        <h3>🚀 使用方法</h3>
+        <ul>
+            <li><b>右键菜单</b> - 项目文件或编辑器中右键 → Quick Merge</li>
+            <li><b>Git 菜单</b> - 顶部菜单 Git → Quick Merge</li>
+            <li><b>VCS 弹窗</b> - 按 Alt + ` → Quick Merge</li>
+        </ul>
+        
+        <h3>🔄 执行流程</h3>
+        <ol>
+            <li>检查本地更改（未提交更改 + 领先远程的提交数）</li>
+            <li>git add . && git commit (如有未提交更改)</li>
+            <li>git push origin 当前分支</li>
+            <li>git fetch origin 目标分支</li>
+            <li>git checkout 目标分支</li>
+            <li>git pull origin 目标分支</li>
+            <li>git merge 当前分支 --no-edit</li>
+            <li>git push origin 目标分支</li>
+            <li>git checkout 当前分支</li>
+        </ol>
     ]]></description>
     
     <depends>com.intellij.modules.platform</depends>
     <depends>Git4Idea</depends>
     
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- 设置界面 -->
+        <applicationConfigurable
+            parentId="tools"
+            instance="com.jiuji.mergetodev.MergeToDevConfigurable"
+            id="com.jiuji.mergetodev.settings"
+            displayName="Quick Branch Merge"/>
+    </extensions>
+
     <actions>
         <action id="com.jiuji.mergetodev.MergeToDevAction"
                 class="com.jiuji.mergetodev.MergeToDevAction"
-                text="Merge to Dev"
-                description="将当前分支合并到 dev 分支">
+                text="Quick Merge"
+                description="一键将当前分支合并到目标分支"
+                icon="AllIcons.Vcs.Merge">
+            <!-- Git 菜单 (VCS -> Git) -->
+            <add-to-group group-id="Git.Menu" anchor="last"/>
+            <!-- Git 分支弹窗 -->
+            <add-to-group group-id="Git.Ongoing.Combined.Branch.Actions" anchor="first"/>
+            <!-- Git 仓库操作 -->
             <add-to-group group-id="GitRepositoryActions" anchor="last"/>
-            <add-to-group group-id="Vcs.MainMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt D"/>
+            <!-- VCS 操作弹窗 (Alt+`) -->
+            <add-to-group group-id="Vcs.QuickListPopupAction" anchor="last"/>
+            <!-- 项目视图右键菜单 -->
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <!-- 编辑器右键菜单 -->
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>

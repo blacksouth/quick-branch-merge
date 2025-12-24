@@ -1,1 +1,1 @@
-rootProject.name = "merge-to-dev-helper"
+rootProject.name = "quick-branch-merge"
