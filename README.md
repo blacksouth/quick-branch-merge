@@ -34,7 +34,8 @@
 
 可配置合并的目标分支，默认为 `dev`
 
-![设置界面](C:/Users/Administrator/.gemini/antigravity/brain/ef73b893-223c-4fe3-9a8a-2f3db62b5e9f/uploaded_image_2_1766554296167.png)
+<img width="1801" height="1018" alt="QQ_1766548374725" src="https://github.com/user-attachments/assets/64095480-9d55-4de2-a692-7dafad895d51" />
+
 
 ---
 
@@ -44,13 +45,15 @@
 
 在编辑器或项目文件中右键 → **Quick Merge**
 
-![右键菜单入口](C:/Users/Administrator/.gemini/antigravity/brain/ef73b893-223c-4fe3-9a8a-2f3db62b5e9f/uploaded_image_0_1766554296167.png)
+<img width="653" height="514" alt="97b3cbcc-c67a-49ce-850e-861437274a88" src="https://github.com/user-attachments/assets/cef61bdf-5334-4435-b302-a7ed4a7cc0e7" />
+
 
 ### Git 菜单入口
 
 顶部菜单 **Git** → **Quick Merge**
 
-![Git菜单入口](C:/Users/Administrator/.gemini/antigravity/brain/ef73b893-223c-4fe3-9a8a-2f3db62b5e9f/uploaded_image_1_1766554296167.png)
+<img width="608" height="591" alt="ec5c5efa-8f46-4728-bc66-611c3fa698a0" src="https://github.com/user-attachments/assets/a02a93a9-ac1b-4aa2-b527-da6c72b48da5" />
+
 
 ---
 
@@ -58,7 +61,8 @@
 
 执行时底部会打开 "**Quick Merge**" 控制台，实时显示每个命令执行结果：
 
-![实时日志控制台](C:/Users/Administrator/.gemini/antigravity/brain/ef73b893-223c-4fe3-9a8a-2f3db62b5e9f/uploaded_image_3_1766554296167.png)
+<img width="1784" height="811" alt="QQ_1766548465551" src="https://github.com/user-attachments/assets/ef3e5a64-005f-4e65-aa95-cdfa7784e709" />
+
 
 ---
 
