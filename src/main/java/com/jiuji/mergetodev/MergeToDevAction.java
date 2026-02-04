@@ -49,15 +49,19 @@ public class MergeToDevAction extends AnAction {
 
         // 检查未提交更改
         boolean hasUncommittedChanges = helper.hasUncommittedChanges();
-        
+
         // fetch 当前分支以检查是否有本地领先的提交
         helper.fetchSilent(currentBranch);
         int aheadCount = helper.getAheadCount(currentBranch);
-        
-        // 如果没有未提交更改且没有领先远程的提交，提示无需操作
-        if (!hasUncommittedChanges && aheadCount == 0) {
-            Messages.showInfoMessage(project, 
-                "当前分支 " + currentBranch + " 与远程分支完全同步，没有需要合并的更改。", 
+
+        // fetch 目标分支以检查当前分支相对于目标分支的差异
+        helper.fetchSilent(targetBranch);
+        int aheadOfTarget = helper.getAheadCountBetweenBranches(currentBranch, "origin/" + targetBranch);
+
+        // 如果没有未提交更改、没有领先远程的提交、且相对于目标分支也没有差异，提示无需操作
+        if (!hasUncommittedChanges && aheadCount == 0 && aheadOfTarget == 0) {
+            Messages.showInfoMessage(project,
+                "当前分支 " + currentBranch + " 与远程分支完全同步，且与目标分支 " + targetBranch + " 没有差异，无需合并。",
                 "无需操作");
             return;
         }

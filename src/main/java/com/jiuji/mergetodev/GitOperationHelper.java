@@ -45,12 +45,37 @@ public class GitOperationHelper {
         GitLineHandler handler = new GitLineHandler(project, root, GitCommand.REV_LIST);
         handler.addParameters("--count", "origin/" + branch + ".." + branch);
         GitCommandResult result = git.runCommand(handler);
-        
+
         if (!result.success()) {
             // 远程分支可能不存在
             return -1;
         }
-        
+
+        try {
+            String output = String.join("", result.getOutput()).trim();
+            return Integer.parseInt(output);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     * 获取当前分支相对于目标分支的领先提交数
+     * @param currentBranch 当前分支
+     * @param targetBranch 目标分支（如 origin/dev）
+     * @return 领先的提交数，-1 表示目标分支不存在或比较失败
+     */
+    public int getAheadCountBetweenBranches(String currentBranch, String targetBranch) {
+        // git rev-list --count targetBranch..currentBranch
+        GitLineHandler handler = new GitLineHandler(project, root, GitCommand.REV_LIST);
+        handler.addParameters("--count", targetBranch + ".." + currentBranch);
+        GitCommandResult result = git.runCommand(handler);
+
+        if (!result.success()) {
+            // 目标分支可能不存在
+            return -1;
+        }
+
         try {
             String output = String.join("", result.getOutput()).trim();
             return Integer.parseInt(output);
