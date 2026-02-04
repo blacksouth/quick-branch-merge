@@ -112,18 +112,23 @@ public class GitOperationHelper {
         console.printSuccess("git add . 完成");
 
         // git commit -m "message"
-        String cmd = "git commit -m \"" + message + "\"";
-        console.printInfo("执行: " + cmd);
+        console.printInfo("执行: git commit -m \"" + message + "\"");
         GitLineHandler commitHandler = new GitLineHandler(project, root, GitCommand.COMMIT);
         commitHandler.addParameters("-m", message);
         GitCommandResult commitResult = git.runCommand(commitHandler);
 
         if (!commitResult.success()) {
-            console.printError(cmd + " 失败");
-            console.printOutput(getOutput(commitResult));
+            String output = getOutput(commitResult);
+            // 检查是否是 "nothing to commit" 的情况
+            if (output.contains("nothing to commit") || output.contains("working tree clean")) {
+                console.printInfo("没有需要提交的更改，跳过提交步骤");
+                return true;
+            }
+            console.printError("git commit -m \"" + message + "\" 失败");
+            console.printOutput(output);
             return false;
         }
-        console.printSuccess(cmd + " 完成");
+        console.printSuccess("git commit -m \"" + message + "\" 完成");
         String output = getOutput(commitResult);
         if (!output.isEmpty()) {
             console.printOutput(output);
